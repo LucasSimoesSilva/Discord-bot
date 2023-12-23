@@ -16,6 +16,13 @@ class Birthday(commands.Cog):
             value += f'-{str(datetime.datetime.now().year)}'
             await ctx.send(f'{key}: {time_until(value)}')
 
+    @commands.command(description='Description: Add the person and his birthday in the database\n'
+                                  'Example:.add_date Lucas 21-12'
+                                  'Return:Lucas birthday was added to the database')
+    async def add_date(self, ctx, name, date):
+        add_birthday(name, date)
+        await ctx.send(f'{name} birthday was added to the database')
+
 
 async def setup(bot):
     await bot.add_cog(Birthday(bot))
@@ -28,3 +35,10 @@ def get_all_birthdays():
         name = line.find('=')
         birthdays[line[:name - 1]] = line[name + 2:].replace('\n', '')
     return birthdays
+
+
+def add_birthday(name, date):
+    file_birthdays = open(f"./files/birthdays.txt", "a")
+    file_birthdays.write(f'\n{name} = {date}')
+    file_birthdays.close()
+    print('Birthday registered')
