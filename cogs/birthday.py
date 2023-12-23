@@ -2,6 +2,8 @@ from discord.ext import commands
 from util import time_until
 import datetime as datetime
 
+FILE_BIRTHDAYS = "./files/birthdays.txt"
+
 
 class Birthday(commands.Cog):
 
@@ -26,23 +28,34 @@ class Birthday(commands.Cog):
         else:
             await ctx.send(f'{name} birthday was added to the database')
 
+    @commands.command(description='Description: Remove the person from database\n'
+                                  'Example:.remove_date Lucas'
+                                  'Return:Lucas birthday was deleted from database')
+    async def remove_date(self, ctx, name):
+        exists = remove_birthday(name)
+        if exists:
+            await ctx.send(f"Name: {name} don't exists in the database")
+        else:
+            await ctx.send(f"Name: {name} removed from database")
+
 
 async def setup(bot):
     await bot.add_cog(Birthday(bot))
 
 
 def get_all_birthdays():
-    file_birthdays = open(f"./files/birthdays.txt", "r")
+    file_birthdays = open(FILE_BIRTHDAYS, "r")
     birthdays = {}
     for line in file_birthdays:
         name = line.find('=')
         birthdays[line[:name - 1]] = line[name + 2:].replace('\n', '')
+    file_birthdays.close()
     return birthdays
 
 
 def add_birthday(name, date):
     if check_name(name):
-        file_birthdays = open(f"./files/birthdays.txt", "a")
+        file_birthdays = open(FILE_BIRTHDAYS, "a")
         file_birthdays.write(f'\n{name} = {date}')
         file_birthdays.close()
         print('Birthday registered')
@@ -50,6 +63,29 @@ def add_birthday(name, date):
     else:
         print('Name already exists in database')
         return True
+
+
+def remove_birthday(name):
+    with open(FILE_BIRTHDAYS, 'r') as file:
+        lines = file.readlines()
+
+    found = False
+    for line in lines:
+        if name in line[:line.find('=')-1]:
+            lines.remove(line)
+            found = True
+
+    if not found:
+        print(f"Name: {name} don't exists in the database")
+        file.close()
+        return True
+    else:
+        with open(FILE_BIRTHDAYS, 'w') as file:
+            lines[-1] = lines[-1].replace('\n', '')
+            file.writelines(lines)
+            file.close()
+        print(f"Name: {name} removed from database")
+        return False
 
 
 def check_name(name):
