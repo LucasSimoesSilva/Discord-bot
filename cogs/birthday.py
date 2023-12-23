@@ -20,8 +20,11 @@ class Birthday(commands.Cog):
                                   'Example:.add_date Lucas 21-12'
                                   'Return:Lucas birthday was added to the database')
     async def add_date(self, ctx, name, date):
-        add_birthday(name, date)
-        await ctx.send(f'{name} birthday was added to the database')
+        exists = add_birthday(name, date)
+        if exists:
+            await ctx.send(f'Name: {name} already exists in database')
+        else:
+            await ctx.send(f'{name} birthday was added to the database')
 
 
 async def setup(bot):
@@ -38,7 +41,19 @@ def get_all_birthdays():
 
 
 def add_birthday(name, date):
-    file_birthdays = open(f"./files/birthdays.txt", "a")
-    file_birthdays.write(f'\n{name} = {date}')
-    file_birthdays.close()
-    print('Birthday registered')
+    if check_name(name):
+        file_birthdays = open(f"./files/birthdays.txt", "a")
+        file_birthdays.write(f'\n{name} = {date}')
+        file_birthdays.close()
+        print('Birthday registered')
+        return False
+    else:
+        print('Name already exists in database')
+        return True
+
+
+def check_name(name):
+    all_birthdays = get_all_birthdays()
+    if name in all_birthdays:
+        return False
+    return True
