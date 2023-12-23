@@ -16,5 +16,5 @@ def time_until(date) -> str:
     seconds = seconds - hours * 3600 - minutes * 60
 
     if str(datetime.date.today()).__eq__(f'{formatted_date.year}-{formatted_date.month}-{formatted_date.day}'):
-        return 'HAPPY BIRTHDAY'
+        return '`HAPPY BIRTHDAY`'
     return f'{days} days, {hours} hours, {minutes} minutes, {seconds} seconds left until your birthday'

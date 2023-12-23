@@ -25,7 +25,7 @@ class Birthday(commands.Cog):
                 value += f'-{str(current_date.year)}'
             else:
                 value += f'-{str(current_date.year + 1)}'
-            await ctx.send(f'{key}: {time_until(value)}')
+            await ctx.send(f'`{key}`: {time_until(value)}')
 
     @commands.command(description='Description: Add the person and his birthday in the database\n'
                                   'Example:.add_date Lucas 21-12'
