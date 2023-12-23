@@ -15,7 +15,16 @@ class Birthday(commands.Cog):
                                                      'Return: Lucas: 128 days until your birthday')
     async def birthday(self, ctx):
         for key, value in get_all_birthdays().items():
-            value += f'-{str(datetime.datetime.now().year)}'
+            current_year = datetime.date.today().year
+
+            value_date = datetime.datetime.strptime(value, '%d-%m').replace(year=int(current_year)).date()
+
+            current_date = datetime.date.today()
+
+            if value_date >= current_date:
+                value += f'-{str(current_date.year)}'
+            else:
+                value += f'-{str(current_date.year + 1)}'
             await ctx.send(f'{key}: {time_until(value)}')
 
     @commands.command(description='Description: Add the person and his birthday in the database\n'
@@ -71,7 +80,7 @@ def remove_birthday(name):
 
     found = False
     for line in lines:
-        if name in line[:line.find('=')-1]:
+        if name in line[:line.find('=') - 1]:
             lines.remove(line)
             found = True
 
