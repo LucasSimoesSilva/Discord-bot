@@ -1,6 +1,7 @@
 from discord.ext import commands
 from util import time_until
 import datetime as datetime
+from collections import OrderedDict
 
 FILE_BIRTHDAYS = "./files/birthdays.txt"
 
@@ -14,17 +15,23 @@ class Birthday(commands.Cog):
                                                      ' how far until their birthday\n'
                                                      'Return: Lucas: 128 days until your birthday')
     async def birthday(self, ctx):
-        for key, value in get_all_birthdays().items():
+        all_birthdays = get_all_birthdays()
+        for key_all, value_all in all_birthdays.items():
             current_year = datetime.date.today().year
 
-            value_date = datetime.datetime.strptime(value, '%d-%m').replace(year=int(current_year)).date()
+            value_date = datetime.datetime.strptime(value_all, '%d-%m').replace(year=int(current_year)).date()
 
             current_date = datetime.date.today()
 
             if value_date >= current_date:
-                value += f'-{str(current_date.year)}'
+                value_all += f'-{str(current_date.year)}'
             else:
-                value += f'-{str(current_date.year + 1)}'
+                value_all += f'-{str(current_date.year + 1)}'
+
+            all_birthdays[key_all] = value_all
+
+        all_birthdays_sorted = OrderedDict(dict(sorted(all_birthdays.items(), key=lambda item: convert_date_to_sort(item[1]))))
+        for key, value in all_birthdays_sorted.items():
             await ctx.send(f'`{key}`: {time_until(value)}')
 
     @commands.command(description='Description: Add the person and his birthday in the database\n'
@@ -60,6 +67,10 @@ def get_all_birthdays():
         birthdays[line[:name - 1]] = line[name + 2:].replace('\n', '')
     file_birthdays.close()
     return birthdays
+
+
+def convert_date_to_sort(data):
+    return datetime.datetime.strptime(data, '%d-%m-%Y')
 
 
 def add_birthday(name, date):
