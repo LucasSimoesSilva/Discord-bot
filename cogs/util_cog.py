@@ -9,7 +9,6 @@ class Util(commands.Cog):
 
     @commands.command(description='Clears the number of messages given as a parameter\nExample:.clear 2'
                                   '\nReturn:This will erase the last 2 messages')
-    @commands.has_role('O brabo')
     async def clear(self, ctx, amount=0):
         await ctx.channel.purge(limit=amount + 1)
 
