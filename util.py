@@ -17,4 +17,6 @@ def time_until(date) -> str:
 
     if str(datetime.date.today()).__eq__(f'{formatted_date.date()}'):
         return '`HAPPY BIRTHDAY`'
+    elif int(days) < 0:
+        return f'{int(days)*-1} days, {hours} hours, {minutes} minutes, {seconds} seconds after your birthday'
     return f'{days} days, {hours} hours, {minutes} minutes, {seconds} seconds left until your birthday'
