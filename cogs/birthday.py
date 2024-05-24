@@ -1,5 +1,5 @@
 from discord.ext import commands
-from util import time_until
+from util.util import time_until
 import datetime as datetime
 from collections import OrderedDict
 

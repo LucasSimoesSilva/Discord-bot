@@ -1,5 +1,5 @@
 from discord.ext import commands
-import util
+from util import util
 
 
 class Util(commands.Cog):
