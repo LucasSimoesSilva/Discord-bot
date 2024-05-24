@@ -1,4 +1,5 @@
 from typing import Mapping, Optional, List, Any
+from util import env_exporter
 
 import discord
 import os
@@ -6,6 +7,9 @@ from discord.ext import commands
 from discord.ext.commands import Cog, Command, Group
 
 help_message = 'Use `.help [command]` for more information on a command.\n\n'
+
+admin_role = env_exporter.get_admin_role()
+bot_token = env_exporter.get_bot_token()
 
 
 class CustomHelpCommand(commands.HelpCommand):
@@ -42,7 +46,7 @@ class CustomHelpCommand(commands.HelpCommand):
 
 
 async def run_discord_bot():
-    TOKEN = open('./.env/TOKEN.txt').read()
+    TOKEN = bot_token
     intents = discord.Intents.default()
     intents.message_content = True
 
@@ -61,12 +65,12 @@ async def run_discord_bot():
 
 def cogs_commands(bot):
     @bot.command()
-    @commands.has_role('O brabo')
+    @commands.has_role(f'{admin_role}')
     async def load(ctx, ex):
         await bot.load_extension(f'cogs.{ex}')
 
     @bot.command()
-    @commands.has_role('O brabo')
+    @commands.has_role(f'{admin_role}')
     async def unload(ctx, ex):
         await bot.unload_extension(f'cogs.{ex}')
 
