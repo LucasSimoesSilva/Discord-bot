@@ -7,6 +7,7 @@ class Util(commands.Cog):
     def __int__(self, bot):
         self.bot = bot
 
+    # This command is very 'dangerous'. You can delete messages you don't want. Be careful
     @commands.command(description='Clears the number of messages given as a parameter\nExample:.clear 2'
                                   '\nReturn:This will erase the last 2 messages')
     async def clear(self, ctx, amount=0):
