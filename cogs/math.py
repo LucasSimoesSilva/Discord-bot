@@ -6,9 +6,7 @@ class Math(commands.Cog):
     def __int__(self, bot):
         self.bot = bot
 
-    # @commands.Cog.listener()
-    # async def on_ready(self):
-    #     print('Bot is online.')
+
 
     @commands.command(aliases=['calculate'], description='Description: Give a expression and return the result\nExample:.cal 90+2\n'
                                                          'Return: The answer of the expression "90+2" is: 92')
