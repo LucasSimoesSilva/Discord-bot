@@ -1,6 +1,8 @@
 from discord.ext import commands
 from util import util
+from util import env_exporter
 
+admin_role = env_exporter.get_admin_role()
 
 class Util(commands.Cog):
 
@@ -8,6 +10,7 @@ class Util(commands.Cog):
         self.bot = bot
 
     # This command is very 'dangerous'. You can delete messages you don't want. Be careful
+    @commands.has_role(f'{admin_role}')
     @commands.command(description='Clears the number of messages given as a parameter\nExample:.clear 2'
                                   '\nReturn:This will erase the last 2 messages')
     async def clear(self, ctx, amount=0):
