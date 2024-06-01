@@ -57,13 +57,18 @@
 
 10. Open the `DiscordBot` folder with your favorite Python editor.
 
-11. Inside the folder, create another folder named .env.
-    - Inside the `.env` folder, create a file named `TOKEN.txt`.
-    - Inside the TOKEN file, paste the token you obtained in step 5.
-    - Make sure there is only one line in the file.
+11. Inside the folder, create a file named '.env'.
+    - In the file, you will add two variables, the Token that you obtained in the step 5 and the role admin, that is the name of the role in your serve that you want to have access to the 'clear command'
+      - At the moment, you can have only one role admin
 
-12. In a terminal of your choice inside the `DiscordBot` folder, use the command `pip install discord`.
+Example:
+```text
+ADMIN_ROLE=The dragons
+BOT_TOKEN=AAAAAAAAAAAAABBBBBBBBBBBBBBBBCCCCCCCCCCCDDDDDDDDDDD
+```
 
-13. Now you can run the `main.py` file, and your bot will be operational to perform its functions within the server.
+12. In a terminal of your choice inside the `DiscordBot` folder, use the command `pip install -r requirements. txt`.
+
+13. Now you can run the `main.py` file using an IDE or in the terminal with the command `python main.py`, and your bot will be operational to perform its functions within the server.
 
 - **EXTRA**: Remember that the bot must have access to the text channel where you will execute the commands.
