@@ -30,9 +30,12 @@ class Birthday(commands.Cog):
 
             all_birthdays[key_all] = value_all
 
-        all_birthdays_sorted = OrderedDict(dict(sorted(all_birthdays.items(), key=lambda item: convert_date_to_sort(item[1]))))
-        for key, value in all_birthdays_sorted.items():
-            await ctx.send(f'`{key}`: {time_until(value)}')
+        birthdays = OrderedDict(dict(sorted(all_birthdays.items(), key=lambda item: convert_date_to_sort(item[1]))))
+        result_message = ''
+        for key, value in birthdays.items():
+            result_message += f'`{key}`: {time_until(value)}\n'
+
+        await ctx.send(result_message)
 
     @commands.command(description='Description: Add the person and his birthday in the database\n'
                                   'Example:.add_date Lucas 21-12'
